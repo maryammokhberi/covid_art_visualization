@@ -1,4 +1,5 @@
 #%% visualization using plotly and mapbox
+# original tutorial from https://towardsdatascience.com/how-to-create-animated-scatter-maps-with-plotly-and-dash-f10bb82d357a
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
