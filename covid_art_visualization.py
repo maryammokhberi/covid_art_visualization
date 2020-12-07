@@ -2,7 +2,74 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_scraped_data_dec06.csv', sep=',')
+all_art_df = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_scraped_data_dec06.csv', sep=',')
+#notna = df.dropna()
+#%% assign date and location
+
+from random import randrange
+from datetime import timedelta
+from datetime import datetime
+
+def random_date(start, end):
+    """
+    This function will return a random datetime between two datetime 
+    objects.
+    run example:
+    >>>random_date('1/1/2008 1:30 PM', '1/1/2009 4:50 AM')
+    """
+    start = datetime.strptime(start, '%m/%d/%Y %I:%M %p')
+    end = datetime.strptime(end, '%m/%d/%Y %I:%M %p')
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = randrange(int_delta)
+    randome_time = start + timedelta(seconds=random_second)
+    return randome_time.isoformat()[0:10]
+
+def add_random_date (all_art_df):
+    """ get a df of list of all downloaded artworks. Assign random dates to each row. """
+    
+    assigned_date = ['NaN']*len(all_art_df)
+    all_art_df['assigned date'] = assigned_date
+    for index in range(len(all_art_df)):
+        new_date = random_date('3/1/2020 1:30 PM','12/8/2020 1:30 PM')
+        all_art_df.loc[index , 'assigned date'] = new_date
+    
+    return all_art_df
+
+add_random_date (all_art_df)
+
+
+def add_city_coordinates(all_art_df):
+    """ get df with some of the rows having a value in the form of city names such as 
+    Moscow, Shiraz, Toronto. Add latitude and longitude for those cities. 
+    """
+    city_coordinates = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/simplemaps_worldcities_basicv1.73/worldcities.csv', sep=',')
+    
+    original_location_list = all_art_df['original location'].str.split(',').tolist()
+    assigned_lat = ['NaN']*len(all_art_df)
+    all_art_df['assigned lat'] = assigned_lat
+    assigned_lon = ['NaN']*len(all_art_df)
+    all_art_df['assigned lon'] = assigned_lon
+    assigned_city = ['NaN']*len(all_art_df)
+    all_art_df['assigned city'] = assigned_city
+    for index,item in enumerate(original_location_list):
+        try:
+            all_art_df.loc[index, 'assigned lat'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['lat'].get_values()[0]
+            all_art_df.loc[index, 'assigned lon'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['lng'].get_values()[0]
+            all_art_df.loc[index, 'assigned city'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['city_ascii'].get_values()[0]
+            print('real lat and lon added to index ', index, 'for ', item[0])
+        except:
+            rand_location = randrange(1,len(city_coordinates))
+            all_art_df.loc[index, 'assigned lat'] = city_coordinates.loc[rand_location]['lat']
+            all_art_df.loc[index, 'assigned lon'] = city_coordinates.loc[rand_location]['lng']
+            all_art_df.loc[index, 'assigned city'] = city_coordinates.loc[rand_location]['city_ascii']
+            print ('nan value in original location, added a random location instead: ',\
+                city_coordinates.loc[rand_location]['city_ascii'], 
+                'lat ', city_coordinates.loc[rand_location]['lat'], 
+                'lon ', city_coordinates.loc[rand_location]['lng'])
+    return all_art_df
+
+add_city_coordinates(all_art_df)
 
 #%% visualization using plotly and mapbox
 # original tutorial from https://towardsdatascience.com/how-to-create-animated-scatter-maps-with-plotly-and-dash-f10bb82d357a
@@ -16,8 +83,8 @@ mapbox_access_token= open("config.ini").read()
 # print ('done with downloadding online_dataset_path')
 # # # Load dataset
 # df = pd.read_csv(online_dataset_path, sep=';')
-df = pd.read_csv('/Users/maryam/Documents/covid and art visualization/covid-19-pandemic-worldwide-data.csv', sep=';')
-
+#df = pd.read_csv('/Users/maryam/Documents/covid and art visualization/covid-19-pandemic-worldwide-data.csv', sep=';')
+df = all_art_df
 print ('done with df')
 
 # # Display first 5 lines
