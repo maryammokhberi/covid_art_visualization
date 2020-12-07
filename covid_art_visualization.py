@@ -2,7 +2,8 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('/Users/maryam/Documents/covid and art visualization/all_scraped_data_dec06.csv', sep=';')
+df = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_scraped_data_dec06.csv', sep=';')
+
 #%% visualization using plotly and mapbox
 # original tutorial from https://towardsdatascience.com/how-to-create-animated-scatter-maps-with-plotly-and-dash-f10bb82d357a
 import pandas as pd
