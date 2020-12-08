@@ -298,7 +298,7 @@ fig.write_html("/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/cov
 import chart_studio.plotly as py
 import chart_studio
 username = 'maryammokhberi' 
-api_key = '8YB9F8GlZzNU3AEhsysO' 
+api_key = '***********' # get from chart-studui -> profile -> setting -> api key 
 chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
 py.plot(fig, filename = 'covid_art_visualization2', auto_open = True)
 # %% make an html version
