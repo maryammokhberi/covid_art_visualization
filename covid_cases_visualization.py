@@ -199,10 +199,10 @@ fig = go.Figure(data=data, layout=layout, frames=frames)
 # Displaying the figure
 fig.show()
 # %%
-def do_click(trace, points, state):
-    if points.point_inds:
-        ind = points.point_inds[0]
-        url = df.link.iloc[ind]
-        webbrowser.open_new_tab(url)
+# def do_click(trace, points, state):
+#     if points.point_inds:
+#         ind = points.point_inds[0]
+#         url = df.link.iloc[ind]
+#         webbrowser.open_new_tab(url)
         
-scatter.on_click(do_click)
+# scatter.on_click(do_click)

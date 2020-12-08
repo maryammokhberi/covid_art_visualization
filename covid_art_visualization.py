@@ -130,7 +130,7 @@ def process_pandemic_data(df):
     print ('done with filling nan valies')
 
     # Compute bubble sizes
-    df2['size'] = 10
+    df2['size'] = 15
     print ('done with bubble size')
     
     # Compute bubble color
@@ -174,36 +174,42 @@ print('done with process_pandemic_data')
 #%% Frames
 days= df2.index.tolist()
 #Sort the dates
-for i in range(len(days)-1):
-    if int(days[i][5:7])> int(days[i+1][5:7]):
-        days[i], days[i+1] = days[i+1] , days[i]
 
-for day in days:
-    frames = [{   
-        'name':'frame_{}'.format(day),
-        'data':[{
-            'type':'scattermapbox',
-            'lat':df2.xs(day)['lat'],
-            'lon':df2.xs(day)['lon'],
-            'marker':go.scattermapbox.Marker(
-                size=df2.xs(day)['size'],
-                color=df2.xs(day)['color'],
-                showscale=True,
-                colorbar={'title':'recovered', 'titleside':'top', 'thickness':4, 'ticksuffix':' %'},
-            ),
-            'customdata':np.stack((df2.xs(day)['image-href'], df2.xs(day)[ 'title/username'], pd.Series(df2.xs(day).index)), axis=-1),
-            'hovertemplate': "<extra></extra><em>%{customdata[1]}  </em><br>🏡  %{customdata[0]}<br>🚨 %{customdata[2]}",
-        }],           
-    }]  
+def sort_the_list(days):
+    from datetime import datetime
+    days.sort(key = lambda days: datetime.strptime(days, '%Y-%m-%d'))
+
+
+sort_the_list(days)
+
+frames = [{   
+    'name':'frame_{}'.format(day),
+    'data':[{
+        'type':'scattermapbox',
+        'lat':df2.xs(day)['lat'],
+        'lon':df2.xs(day)['lon'],
+        'marker':go.scattermapbox.Marker(
+            size=df2.xs(day)['size'],
+            color=df2.xs(day)['color'],
+            # showscale=True,
+            # colorbar={'title':'number', 'titleside':'top', 'thickness':4, 'ticksuffix':""},
+        ),
+        'customdata':np.stack((df2.xs(day)['image-href'], df2.xs(day)[ 'title/username'], pd.Series(df2.xs(day).index)), axis=-1),
+        'hovertemplate': "<extra></extra><em>%{customdata[1]}  </em><br> 🏡  %{customdata[0]}<br>🚨 %{customdata[2]}",
+    }],           
+}for day in days]  
 
 #%% Adding a colormap.
+
+
+
 day = '2020-05-01'
 tmp = df2.xs(day)
 marker=go.scattermapbox.Marker(
       size=tmp['size'],
       color=tmp['color'],
-      showscale=True,
-      colorbar={'title':'Recovered', 'titleside':'top', 'thickness':4, 'ticksuffix':' %'},
+    #   showscale=True,
+    #   colorbar={'title':'number', 'titleside':'top', 'thickness':4, 'ticksuffix':''},
   )
 
 # %%Adding custom hover information
@@ -221,8 +227,7 @@ hovertemplate="""
   <extra></extra>
   <em>%{customdata[0]}  </em><br>
   🚨  %{customdata[1]}<br>
-  🏡  %{customdata[2]}<br>
-  ⚰️  %{customdata[3]}
+  🏡  %{customdata[2]}<br>}
   """,
 
 
@@ -239,7 +244,7 @@ sliders = [{
             'method':'animate',
             'args':[
                 ['frame_{}'.format(day)],
-                {'mode':'immediate', 'frame':{'duration':100, 'redraw': True}, 'transition':{'duration':50}}
+                {'mode':'immediate', 'frame':{'duration':30, 'redraw': True}, 'transition':{'duration':17}}
               ],
         } for day in days]
 }]
@@ -247,15 +252,15 @@ sliders = [{
 play_button = [{
     'type':'buttons',
     'showactive':True,
-    'x':0.045, 'y':-0.08,
+    'x':0.045, 'y':-0.04,
     'buttons':[{ 
         'label':'🎬', # Play
         'method':'animate',
         'args':[
             None,
             {
-                'frame':{'duration':100, 'redraw':True},
-                'transition':{'duration':50},
+                'frame':{'duration':30, 'redraw':True},
+                'transition':{'duration':17},
                 'fromcurrent':True,
                 'mode':'immediate',
             }
@@ -268,7 +273,7 @@ data = frames[0]['data']
 # Adding all sliders and play button to the layout
 layout = go.Layout(
     sliders=sliders,
-    updatemenus=play_button,
+    # updatemenus=play_button,
     mapbox={
         'accesstoken':mapbox_access_token,
         'center':{"lat": 37.86, "lon": 2.15},
