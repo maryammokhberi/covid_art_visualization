@@ -195,14 +195,11 @@ frames = [{
             # colorbar={'title':'number', 'titleside':'top', 'thickness':4, 'ticksuffix':""},
         ),
         'customdata':np.stack((df2.xs(day)['image-href'], df2.xs(day)[ 'title/username'], pd.Series(df2.xs(day).index)), axis=-1),
-        'hovertemplate': "<extra></extra><em>%{customdata[1]}  </em><br> 🏡  %{customdata[0]}<br>🚨 %{customdata[2]}",
+        'hovertemplate': "<extra></extra><em>%{customdata[1]}  </em><br> 🏡 <a href = %{customdata[0]}> Link to the art </a><br>🚨 %{customdata[2]}",
     }],           
 }for day in days]  
 
 #%% Adding a colormap.
-
-
-
 day = '2020-05-01'
 tmp = df2.xs(day)
 marker=go.scattermapbox.Marker(
@@ -225,9 +222,9 @@ customdata=np.stack(
 
 hovertemplate="""
   <extra></extra>
-  <em>%{customdata[0]}  </em><br>
-  🚨  %{customdata[1]}<br>
-  🏡  %{customdata[2]}<br>}
+  <em>%{customdata[2]}  </em><br>
+  🚨  %{customdata[0]}<br>
+  🏡  <a href =%{customdata[1]}> Link to the art </a><br>}
   """,
 
 
