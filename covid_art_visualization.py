@@ -279,51 +279,62 @@ layout = go.Layout(
     }
 )
 
+
 # Creating the figure
 fig = go.Figure(data=data, layout=layout, frames=frames)
+fig.update_layout(
+    title_text='COVID and ART'
+ )
 
 
-# %% make hyperlink work
-from plotly.offline import plot
-import re
+fig.write_html("/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/covid_art_visualization2.html")
 
-# Get HTML representation of plotly.js and this figure
-plot_div = plot(fig, output_type='div', include_plotlyjs=True)
-# Get id of html div element that looks like
-# <div id="301d22ab-bfba-4621-8f5d-dc4fd855bb33" ... >
-res = re.search('<div id="([^"]*)"', plot_div)
-div_id = res.groups()[0]
-# Build JavaScript callback for handling clicks
-# and opening the URL in the trace's customdata 
-js_callback = """
-<script>
-var plot_element = document.getElementById("{div_id}");
-plot_element.on('plotly_click', function(data){{
-    console.log(data);
-    var point = data.points[0];
-    if (point) {{
-        console.log(point.customdata);
-        window.open(point.customdata);
-    }}
-}})
-</script>
-""".format(div_id=div_id)
-
-# Build HTML string
-html_str = """
-<html>
-<body>
-{plot_div}
-{js_callback}
-</body>
-</html>
-""".format(plot_div=plot_div, js_callback=js_callback)
-
-# Write out HTML file
-with open('hyperlink_fig.html', 'w') as f:
-    f.write(html_str)
 
 
 #%% Displaying the figure
 
 fig.show()
+
+
+
+
+# %% make an html version
+# from plotly.offline import plot
+# import re
+
+# # Get HTML representation of plotly.js and this figure
+# plot_div = plot(fig, output_type='div', include_plotlyjs=True)
+# # Get id of html div element that looks like
+# # <div id="301d22ab-bfba-4621-8f5d-dc4fd855bb33" ... >
+# res = re.search('<div id="([^"]*)"', plot_div)
+# div_id = res.groups()[0]
+# # Build JavaScript callback for handling clicks
+# # and opening the URL in the trace's customdata 
+# js_callback = """
+# <script>
+# var plot_element = document.getElementById("{div_id}");
+# plot_element.on('plotly_click', function(data){{
+#     console.log(data);
+#     var point = data.points[0];
+#     if (point) {{
+#         console.log(point.customdata);
+#         window.open(point.customdata);
+#     }}
+# }})
+# </script>
+# """.format(div_id=div_id)
+
+# # Build HTML string
+# html_str = """
+# <html>
+# <body>
+# {plot_div}
+# {js_callback}
+# </body>
+# </html>
+# """.format(plot_div=plot_div, js_callback=js_callback)
+
+# # Write out HTML file
+# with open('covid_art_visualization.html', 'w') as f:
+#     f.write(html_str)
+
