@@ -1,75 +1,82 @@
-#%% preprocess the data
-import pandas as pd
-import numpy as np
+# #%% preprocess the data
+# import pandas as pd
+# import numpy as np
 
-all_art_df = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_scraped_data_dec06.csv', sep=',')
-#notna = df.dropna()
-#%% assign date and location
+# all_art_df = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_scraped_data_dec06.csv', sep=',')
+# #notna = df.dropna()
+# #%% assign date and location
 
-from random import randrange
-from datetime import timedelta
-from datetime import datetime
+# from random import randrange
+# from datetime import timedelta
+# from datetime import datetime
 
-def random_date(start, end):
-    """
-    This function will return a random datetime between two datetime 
-    objects.
-    run example:
-    >>>random_date('1/1/2008 1:30 PM', '1/1/2009 4:50 AM')
-    """
-    start = datetime.strptime(start, '%m/%d/%Y %I:%M %p')
-    end = datetime.strptime(end, '%m/%d/%Y %I:%M %p')
-    delta = end - start
-    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
-    random_second = randrange(int_delta)
-    randome_time = start + timedelta(seconds=random_second)
-    return randome_time.isoformat()[0:10]
+# def random_date(start, end):
+#     """
+#     This function will return a random datetime between two datetime 
+#     objects.
+#     run example:
+#     >>>random_date('1/1/2008 1:30 PM', '1/1/2009 4:50 AM')
+#     """
+#     start = datetime.strptime(start, '%m/%d/%Y %I:%M %p')
+#     end = datetime.strptime(end, '%m/%d/%Y %I:%M %p')
+#     delta = end - start
+#     int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+#     random_second = randrange(int_delta)
+#     randome_time = start + timedelta(seconds=random_second)
+#     return randome_time.isoformat()[0:10]
 
-def add_random_date (all_art_df):
-    """ get a df of list of all downloaded artworks. Assign random dates to each row. """
+# def add_random_date (all_art_df):
+#     """ get a df of list of all downloaded artworks. Assign random dates to each row. """
     
-    assigned_date = ['NaN']*len(all_art_df)
-    all_art_df['assigned date'] = assigned_date
-    for index in range(len(all_art_df)):
-        new_date = random_date('3/1/2020 1:30 PM','12/8/2020 1:30 PM')
-        all_art_df.loc[index , 'assigned date'] = new_date
+#     assigned_date = ['NaN']*len(all_art_df)
+#     all_art_df['date'] = assigned_date
+#     for index in range(len(all_art_df)):
+#         new_date = random_date('3/1/2020 1:30 PM','12/8/2020 1:30 PM')
+#         all_art_df.loc[index , 'date'] = new_date
     
-    return all_art_df
+#     return all_art_df
 
-add_random_date (all_art_df)
+# add_random_date (all_art_df)
 
 
-def add_city_coordinates(all_art_df):
-    """ get df with some of the rows having a value in the form of city names such as 
-    Moscow, Shiraz, Toronto. Add latitude and longitude for those cities. 
-    """
-    city_coordinates = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/simplemaps_worldcities_basicv1.73/worldcities.csv', sep=',')
+# def add_city_coordinates(all_art_df):
+#     """ get df with some of the rows having a value in the form of city names such as 
+#     Moscow, Shiraz, Toronto. Add latitude and longitude for those cities. 
+#     """
+#     city_coordinates = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/simplemaps_worldcities_basicv1.73/worldcities.csv', sep=',')
     
-    original_location_list = all_art_df['original location'].str.split(',').tolist()
-    assigned_lat = ['NaN']*len(all_art_df)
-    all_art_df['assigned lat'] = assigned_lat
-    assigned_lon = ['NaN']*len(all_art_df)
-    all_art_df['assigned lon'] = assigned_lon
-    assigned_city = ['NaN']*len(all_art_df)
-    all_art_df['assigned city'] = assigned_city
-    for index,item in enumerate(original_location_list):
-        try:
-            all_art_df.loc[index, 'assigned lat'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['lat'].get_values()[0]
-            all_art_df.loc[index, 'assigned lon'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['lng'].get_values()[0]
-            all_art_df.loc[index, 'assigned city'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['city_ascii'].get_values()[0]
-            print('real lat and lon added to index ', index, 'for ', item[0])
-        except:
-            rand_location = randrange(1,len(city_coordinates))
-            all_art_df.loc[index, 'assigned lat'] = city_coordinates.loc[rand_location]['lat']
-            all_art_df.loc[index, 'assigned lon'] = city_coordinates.loc[rand_location]['lng']
-            all_art_df.loc[index, 'assigned city'] = city_coordinates.loc[rand_location]['city_ascii']
-            print ('nan value in original location, added a random location instead: ',\
-                city_coordinates.loc[rand_location]['city_ascii'], 
-                'lat ', city_coordinates.loc[rand_location]['lat'], 
-                'lon ', city_coordinates.loc[rand_location]['lng'])
-    return all_art_df
+#     original_location_list = all_art_df['original location'].str.split(',').tolist()
+#     assigned_lat = ['NaN']*len(all_art_df)
+#     all_art_df['lat'] = assigned_lat
+#     assigned_lon = ['NaN']*len(all_art_df)
+#     all_art_df['lon'] = assigned_lon
+#     assigned_city = ['NaN']*len(all_art_df)
+#     all_art_df['sub zone'] = assigned_city
+#     assigned_country = ['NaN']*len(all_art_df)
+#     all_art_df['zone'] = assigned_country
+#     for index,item in enumerate(original_location_list):
+#         try:
+#             all_art_df.loc[index, 'lat'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['lat'].get_values()[0]
+#             all_art_df.loc[index, 'lon'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['lng'].get_values()[0]
+#             all_art_df.loc[index, 'sub zone'] = city_coordinates[city_coordinates['city_ascii'].str.contains(item[0], case = False)]['city_ascii'].get_values()[0]
+#             all_art_df.loc[index, 'zone'] = city_coordinates[city_coordinates['country'].str.contains(item[0], case = False)]['country'].get_values()[0]
+#             print('real lat and lon added to index ', index, 'for ', item[0])
+#         except:
+#             rand_location = randrange(1,len(city_coordinates))
+#             all_art_df.loc[index, 'lat'] = city_coordinates.loc[rand_location]['lat']
+#             all_art_df.loc[index, 'lon'] = city_coordinates.loc[rand_location]['lng']
+#             all_art_df.loc[index, 'sub zone'] = city_coordinates.loc[rand_location]['city_ascii']
+#             all_art_df.loc[index, 'zone'] = city_coordinates.loc[rand_location]['country']
+#             print ('nan value in original location, added a random location instead: ',\
+#                 'country ', city_coordinates.loc[rand_location]['country'], 
+#                 'city ', city_coordinates.loc[rand_location]['city_ascii'], 
+#                 'lat ', city_coordinates.loc[rand_location]['lat'], 
+#                 'lon ', city_coordinates.loc[rand_location]['lng'])
+#     return all_art_df
 
-add_city_coordinates(all_art_df)
+# add_city_coordinates(all_art_df)
+
+# all_art_df.to_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_art_assigned_date_zone.csv')
 
 #%% visualization using plotly and mapbox
 # original tutorial from https://towardsdatascience.com/how-to-create-animated-scatter-maps-with-plotly-and-dash-f10bb82d357a
@@ -84,7 +91,7 @@ mapbox_access_token= open("config.ini").read()
 # # # Load dataset
 # df = pd.read_csv(online_dataset_path, sep=';')
 #df = pd.read_csv('/Users/maryam/Documents/covid and art visualization/covid-19-pandemic-worldwide-data.csv', sep=';')
-df = all_art_df
+df = pd.read_csv('/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/all_art_assigned_date_zone.csv')
 print ('done with df')
 
 # # Display first 5 lines
@@ -102,38 +109,38 @@ def process_pandemic_data(df):
     print ('done with zone')
     
     # Extracting latitute and longitude
-    df['lat'] = df['location'].apply(lambda x: str(x).split(',')[0])
-    print ('done with lat')
-    df['lon'] = df['location'].apply(lambda x: str(x).split(',')[-1])
-    print ('done with lon')
+    #df['lat'] = df['location'].apply(lambda x: str(x).split(',')[0])
+    #print ('done with lat')
+    #df['lon'] = df['location'].apply(lambda x: str(x).split(',')[-1])
+    #print ('done with lon')
     # Saving countries positions (latitude and longitude per subzones)
-    country_position = df[['zone', 'lat', 'lon']].drop_duplicates(['zone']).set_index(['zone'])
-    print ('done with country position')
+    #country_position = df[['zone', 'lat', 'lon']].drop_duplicates(['zone']).set_index(['zone'])
+    #print ('done with country position')
 
     # Pivoting per category
-    df = pd.pivot_table(df, values='count', index=['date', 'zone'], columns=['category'])
-    print ('done with pivoting')
-    df.columns = ['confirmed', 'deaths', 'recovered']
+    df2 = df.set_index('date')
+    #print ('done with pivoting')
+    #df.columns = ['title / user name', 'image link']
 
     # Merging locations after pivoting
-    df = df.join(country_position)
-    print ('done with merging')
+    #df = df.join(country_position)
+    #print ('done with merging')
     # Filling nan values with 0
-    df = df.fillna(0)
+    df2 = df2.fillna(0)
     print ('done with filling nan valies')
 
     # Compute bubble sizes
-    df['size'] = df['confirmed'].apply(lambda x: (np.sqrt(x/100) + 1) if x > 500 else (np.log(x) / 2 + 1)).replace(np.NINF, 0)
+    df2['size'] = 10
     print ('done with bubble size')
     
     # Compute bubble color
-    df['color'] = (df['recovered']/df['confirmed']).fillna(0).replace(np.inf , 0)
+    df2['color'] = 100
     print ('done with bubble color')
     
-    return df
+    return df2
 
 #%%
-df = process_pandemic_data(df)
+df2 = process_pandemic_data(df)
 print('done with process_pandemic_data')
 #%%
 # day = '2020-05-01'
@@ -165,28 +172,33 @@ print('done with process_pandemic_data')
 # fig.show()
 
 #%% Frames
-days= df.index.levels[0].tolist()
+days= df2.index.tolist()
+#Sort the dates
+for i in range(len(days)-1):
+    if int(days[i][5:7])> int(days[i+1][5:7]):
+        days[i], days[i+1] = days[i+1] , days[i]
 
-frames = [{   
-    'name':'frame_{}'.format(day),
-    'data':[{
-        'type':'scattermapbox',
-        'lat':df.xs(day)['lat'],
-        'lon':df.xs(day)['lon'],
-        'marker':go.scattermapbox.Marker(
-            size=df.xs(day)['size'],
-            color=df.xs(day)['color'],
-            showscale=True,
-            colorbar={'title':'Recovered', 'titleside':'top', 'thickness':4, 'ticksuffix':' %'},
-        ),
-        'customdata':np.stack((df.xs(day)['confirmed'], df.xs(day)['recovered'],  df.xs(day)['deaths'], pd.Series(df.xs(day).index)), axis=-1),
-        'hovertemplate': "<extra></extra><em>%{customdata[3]}  </em><br>🚨  %{customdata[0]}<br>🏡  %{customdata[1]}<br>⚰️  %{customdata[2]}",
-    }],           
-} for day in days]  
+for day in days:
+    frames = [{   
+        'name':'frame_{}'.format(day),
+        'data':[{
+            'type':'scattermapbox',
+            'lat':df2.xs(day)['lat'],
+            'lon':df2.xs(day)['lon'],
+            'marker':go.scattermapbox.Marker(
+                size=df2.xs(day)['size'],
+                color=df2.xs(day)['color'],
+                showscale=True,
+                colorbar={'title':'recovered', 'titleside':'top', 'thickness':4, 'ticksuffix':' %'},
+            ),
+            'customdata':np.stack((df2.xs(day)['image-href'], df2.xs(day)[ 'title/username'], pd.Series(df2.xs(day).index)), axis=-1),
+            'hovertemplate': "<extra></extra><em>%{customdata[1]}  </em><br>🏡  %{customdata[0]}<br>🚨 %{customdata[2]}",
+        }],           
+    }]  
 
 #%% Adding a colormap.
 day = '2020-05-01'
-tmp = df.xs(day)
+tmp = df2.xs(day)
 marker=go.scattermapbox.Marker(
       size=tmp['size'],
       color=tmp['color'],
@@ -197,12 +209,11 @@ marker=go.scattermapbox.Marker(
 # %%Adding custom hover information
 
 day = '2020-05-01'
-tmp = df.xs(day)
+tmp = df2.xs(day)
 customdata=np.stack(
   (pd.Series(tmp.index),
-   tmp['confirmed'],
-   tmp['recovered'],
-   tmp['deaths']),
+   tmp['image-href'],
+   tmp['title/username']),
   axis=-1
 ),
 
@@ -272,10 +283,10 @@ fig = go.Figure(data=data, layout=layout, frames=frames)
 # Displaying the figure
 fig.show()
 # %%
-def do_click(trace, points, state):
-    if points.point_inds:
-        ind = points.point_inds[0]
-        url = df.link.iloc[ind]
-        webbrowser.open_new_tab(url)
+# def do_click(trace, points, state):
+#     if points.point_inds:
+#         ind = points.point_inds[0]
+#         url = df.link.iloc[ind]
+#         webbrowser.open_new_tab(url)
         
-scatter.on_click(do_click)
+# scatter.on_click(do_click)
