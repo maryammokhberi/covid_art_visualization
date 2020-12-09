@@ -130,7 +130,7 @@ def process_pandemic_data(df):
     print ('done with filling nan valies')
 
     # Compute bubble sizes
-    df2['size'] = 15
+    df2['size'] = 20
     print ('done with bubble size')
     
     # Compute bubble color
@@ -283,24 +283,25 @@ layout = go.Layout(
 # Creating the figure
 fig = go.Figure(data=data, layout=layout, frames=frames)
 fig.update_layout(
-    title_text='COVID and ART'
+    title_text = 'COVID and ART',
+    clickmode = 'event+select'
  )
 
 fig.show()
 
 # generate the html file
-fig.write_html("/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/covid_art_visualization2.html")
+fig.write_html("/Users/maryam/Google Drive/ComputerScience_PhD/covid and art/covid_art_visualization/covid_art_visualization.html")
 
 
 #%% generate chart-studio link
 
 #This line of code uploads the visualization to plotly chart-studio #and returns the link to the visualization
-import chart_studio.plotly as py
-import chart_studio
-username = 'maryammokhberi' 
-api_key = '***********' # get from chart-studui -> profile -> setting -> api key 
-chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
-py.plot(fig, filename = 'covid_art_visualization2', auto_open = True)
+# import chart_studio.plotly as py
+# import chart_studio
+# username = 'maryammokhberi' 
+# api_key = '***********' # get from chart-studui -> profile -> setting -> api key 
+# chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
+# py.plot(fig, filename = 'covid_art_visualization', auto_open = True)
 # %% make an html version
 # from plotly.offline import plot
 # import re
