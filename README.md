@@ -70,32 +70,8 @@ In table [tab:post-session] you can also see the participants’ feedback for fu
 
 One of the points that came up in the users’ input is the potential bias in data and the possibility of misrepresentation of some communities in our scraped database. We acknowledge that our focus on English hashtags has induced a source of bias in the database. Another source of bias might be different cultural practices that make artists of certain regions more willing to public-sharing of their works compared to artists in other places. Another reason might be the lack of easy access to the internet, which leaves some artists out without the opportunity of entering their work into the pool. While the first issue can be eliminated by generating a more inclusive and comprehensive pool of hashtags before data-scraping, the last two reasons are beyond our control.
 
-[t!]
+![image](https://user-images.githubusercontent.com/19597430/123830272-25ddf600-d8d1-11eb-97ae-9119e0eba924.png) ![image](https://user-images.githubusercontent.com/19597430/123830373-37bf9900-d8d1-11eb-845d-05f7bacffe6e.png)
 
-<span>c c</span>
- & <span>*Times mentioned*</span>
-Reflection of emotions in the art & 3
-(r)<span>3-4</span> Items/objects used in art to visualize COVID & 1
-(r)<span>3-4</span> & 3
-(r)<span>3-4</span> Most influential artists in a certain period of time &1
-(r)<span>3-4</span> Trends in different artworks over time & 1
-(r)<span>3-4</span> & 1
-(r)<span>3-4</span> & 1
-
-& <span>*Times mentioned*</span>
- & 1
-(r)<span>3-4</span> & 2
-(r)<span>3-4</span> & 2
-
-& <span>*Times mentioned*</span>
- & 4
-(r)<span>3-4</span> & 1
-(r)<span>3-4</span> & 1
-(r)<span>3-4</span> & 1
-(r)<span>3-4</span> & 1
-(r)<span>3-4</span> & 1
-
- [tab:pre-session]
 
 [t!]
 
