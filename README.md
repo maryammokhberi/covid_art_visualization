@@ -74,7 +74,7 @@ One of the points that came up in the users’ input is the potential bias in da
 [Table 1. Results of the pre-session questionnaire about the expectationsof users from an COVID-art database. q1) Imagine you have access to adatabase of all the artworks generated in the time of a pandemic. Whatkind of questions would you like to answer using this database?  q2)Imagine we are making some data visualizations using this database andputting them on a website. What kind of data visualization themes wouldyou like to see about this database? q3) What are your expectationsregarding the interactive features of this visualization? i.e., what kind oftools would you like to have when exploring the data?]
 
 
-![image](https://user-images.githubusercontent.com/19597430/123830373-37bf9900-d8d1-11eb-845d-05f7bacffe6e.png =100x)
+![image](https://user-images.githubusercontent.com/19597430/123830373-37bf9900-d8d1-11eb-845d-05f7bacffe6e.png){ width=50% height=50% }
 [Table 2. Results of the post-session questionnaire about the feedback ofusers about COVID-art visualization. q1) What new research questionscome to your mind after working with COVID and ART visualization?q2) Do you have any feedback for improving the COVID and ART web-site and visualization?]
 
 
